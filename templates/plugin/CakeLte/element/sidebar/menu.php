@@ -1,36 +1,34 @@
 <?php
 $menu = [
     'mainHeader' => [
-        'label' => __('MAIN'),
+        'label' => __('Master Data'),
         'type' => $this->MenuLte::ITEM_TYPE_HEADER, // or 'header'
     ],
-    'startPages' => [
-        'label' => __('Start Pages'),
-        'icon' => 'fas fa-tachometer-alt',
-        'dropdown' => [
-            'activePage' => [
-                'label' => __('Active Page'),
-                'uri' => ['controller' => 'Pages', 'action' => 'display', 'home', 'plugin' => false],
-            ],
-            'inactivePage' => [
-                'label' => __('Inactive Page'),
-                'uri' => '#',
-            ],
-        ],
+    'mPengguna'=>[
+        'label'=> __('Pengguna'),
+        'icon' => 'fas fa-users',
+        'uri' => ['controller' => 'Petugas', 'action' => 'index'],
     ],
-    'simpleLink' => [
-        'label' => __('Simple Link'),
-        'badge' => ['text' => __('New'), 'color' => 'danger'],
-        'uri' => ['controller' => 'Pages', 'action' => 'display', 'home', 'plugin' => false],
-        'icon' => 'fas fa-th text-danger',
-        'show' => function () {
-            // logic condition to show item, return a bool
-            return true;
-        }
+    'mAduan'=>[
+        'label'=> __('Pengaduan'),
+        'icon' => 'fas fa-book',
+        'uri' => ['controller' => 'Pengaduan', 'action' => 'index'],
+    ],
+    'mTanggap'=>[
+        'label'=> __('Tanggapan'),
+        'icon' => 'fas fa-book',
+        'uri' => ['controller' => 'Tanggapan', 'action' => 'index'],
+    ],
+    'mLogout'=>[
+        'label'=> __('Logout'),
+        'icon' => 'fas fa-sign-out-alt text-danger',
+        'uri' => ['controller' => 'Petugas', 'action' => 'logout'],
     ],
 ];
 
+
 echo $this->MenuLte->render($menu);
+
 
 /*
 - To activate an item, you can pass the `active` variable, or use method `activeItem` from the template

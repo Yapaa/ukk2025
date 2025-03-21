@@ -71,25 +71,29 @@ class PengaduanController extends AppController
      */
     public function edit($id = null)
     {
-        $pengaduan = $this->Pengaduan->get($id, contain: []);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $pengaduan = $this->Pengaduan->patchEntity($pengaduan, $this->request->getData());
-            $file = $this->request->getUploadedFiles();
-            if(!empty($file['images']->getClientFilename())){
-                $pengaduan->foto = $file['images']->getClientFilename();
+        {
+            $pengaduan = $this->Pengaduan->get($id, contain: []);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $pengaduan = $this->Pengaduan->patchEntity($pengaduan, $this->request->getData());
                 
-                $file['images']->moveTo(WWW_ROOT . 'img' . DS .'pengaduan' . DS . $pengaduan->foto);
+                $file = $this->request->getUploadedFiles();
+                
+                if(!empty($file['images']->getClientFilename())){
+                    $pengaduan->foto = $file['images']->getClientFilename();
+                    $file['images']->moveTo(WWW_ROOT . 'img' . DS .'pengaduan' . DS . $pengaduan->foto);
                 }
-            if ($this->Pengaduan->save($pengaduan)) {
-                $this->Flash->success(__('The pengaduan has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                if ($this->Pengaduan->save($pengaduan)) {
+                    $this->Flash->success(__('The pengaduan has been saved.'));
+    
+    
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The pengaduan could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The pengaduan could not be saved. Please, try again.'));
+            $petugas= $this->Pengaduan->Petugas->find('list', limit: 200)->all();
+            $this->set(compact('pengaduan', 'petugas'));
         }
-        $petugas = $this->Pengaduan->Petugas->find('list', limit: 200)->all();
-        $this->set(compact('pengaduan', 'petugas'));
-    }
+    }    
 
     /**
      * Delete method
@@ -105,16 +109,18 @@ class PengaduanController extends AppController
         $cekTanggapan = $this->Pengaduan->Tanggapan->find()->where(['pengaduan_id'=>$id])->count();
         if(empty($cekTanggapan)){
             if ($this->Pengaduan->delete($pengaduan)) {
-            $this->Flash->success(__('The pengaduan has been deleted.'));
-        }else{
-            $this->Flash->error(__('The pengaduan could not be deleted. Please, try again.'));
-        }
-            
+                $this->Flash->success(__('The pengaduan has been deleted.'));
+            } else {
+                $this->Flash->error(__('The pengaduan could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->warning(__('Data tanggapan pada pengaduan '.$pengaduan->isi_laporan.
+            $this->Flash->warning(__('Data tanggapan pada pengaduan '.$pengaduan->isi_aduan.
             ' harap diperiksa kembali!'));
         }
+
+        return $this->redirect(['action' => 'index']);
     }
+
 
     public function logout()
     {

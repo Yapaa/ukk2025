@@ -1,6 +1,6 @@
 <!-- Sidebar user panel (optional) -->
 <?= $this->element('CakeLte.sidebar/user') ?>
-<?= $this->element('CakeLte.sidebar/search') ?>
+<!-- ?= $this->element('CakeLte.sidebar/search') ?> -->
 
 <!-- Sidebar Menu -->
 <nav class="mt-2">

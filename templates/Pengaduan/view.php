@@ -68,17 +68,15 @@ $status=['lapor'=>'Baru','proses'=>'Proses','selesai'=>'Selesai'];
     <div class="card-header d-flex">
         <h3 class="card-title"><?= __('Related Tanggapan') ?></h3>
         <div class="ml-auto">
-            <?= $this->Html->link(__('New Tanggapan'), ['controller' => 'Tanggapan', 'action' => 'add', '?' => ['pengaduan_id' => $pengaduan->id]], ['class' => 'btn btn-primary btn-sm']) ?>
-            <?= $this->Html->link(__('List Tanggapan'), ['controller' => 'Tanggapan', 'action' => 'index'], ['class' => 'btn btn-primary btn-sm']) ?>
         </div>
     </div>
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
                 <th><?= __('Id Tanggapan') ?></th>
-                <th><?= __('Tg Tanggapan') ?></th>
+                <th><?= __('Tgl Tanggapan') ?></th>
                 <th><?= __('Isi Tanggapan') ?></th>
-                <th><?= __('Petugas Id') ?></th>
+                <th><?= __('User Id') ?></th>
                 <th><?= __('Pengaduan Id') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -104,6 +102,24 @@ $status=['lapor'=>'Baru','proses'=>'Proses','selesai'=>'Selesai'];
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
+            <tr>
+                <td colspan='6'>
+                <?= $this->Form->create(null, ['url'=>['controller'=>'Tanggapan','action'=>'add'],'role'=>'form']) ?>
+    <div class="card-body">
+        <?= $this->Form->control('tg_tanggapan',['value'=> $time->i18nFormat('yyyy-MM-dd HH:mm:ss'),'type'=>'hidden']) ?>
+        <?= $this->Form->control('isi_tanggapan',['value'=>'','type'=>'textarea']) ?>
+        <?= $this->Form->control('petugas_id', ['type' => 'hidden','value'=> $this->Identity->get('id'), 'class' => 'form-control']) ?>
+        <?= $this->Form->control('pengaduan_id', ['type' => 'hidden','value'=>$pengaduan->id, 'class' => 'form-control']) ?>
+    </div>
+    <div class="card-footer d-flex">
+        <div class="ml-auto">
+            <?= $this->Form->button(__('Save'), ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+        </div>
+    </div>
+    <?= $this->Form->end() ?>
+                </td>
+            </tr>
         </table>
     </div>
 </div>

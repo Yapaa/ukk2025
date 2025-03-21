@@ -57,7 +57,7 @@ class TanggapanController extends AppController
         }
         $petugas = $this->Tanggapan->Petugas->find('list', limit: 200)->all();
         $pengaduans = $this->Tanggapan->Pengaduans->find('list', limit: 200)->all();
-        $this->set(compact('tanggapan', 'users', 'pengaduans'));
+        $this->set(compact('tanggapan', 'petugas', 'pengaduans'));
     }
 
 
